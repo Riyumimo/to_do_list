@@ -226,9 +226,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
         colors: _selectColor,
         isComplete: 0,
       );
-      context.read<NoteBloc>().add(AddNoteEvent(note: note));
+      context.read<NoteBloc>().add(NoteEvent.addNoteEvent(note: note));
       // BlocProvider.of<NoteBloc>(context).add(GetNoteEvent());
-      context.read<NoteBloc>().add(GetNoteEvent(DateTime.now()));
+      context
+          .read<NoteBloc>()
+          .add(NoteEvent.getNoteEvent(date: context.read<DateTime>()));
       Navigator.pop(context);
       // Navigator.pushReplacement(
       //     context,

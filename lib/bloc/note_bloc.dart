@@ -1,24 +1,27 @@
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:to_do_list/db/db_helper.dart';
 import 'package:to_do_list/models/note.dart';
 
 part 'note_event.dart';
+part 'note_bloc.freezed.dart';
 part 'note_state.dart';
 
+@injectable
 class NoteBloc extends Bloc<NoteEvent, NoteState> {
-  NoteBloc() : super(NoteInitial()) {
-    on<GetNoteEvent>((event, emit) async {
-      emit(NoteInitial());
+  NoteBloc() : super(const _Initial()) {
+    on<_GetNoteEvent>((event, emit) async {
+      emit(const _Initial());
       try {
         // await Future.delayed(Duration(seconds: 5));
         List<Note> task = await DatabaseHelper.queryDatabase();
+        emit(_Loaded(task));
 
-        emit(NoteLoaded(note: task));
-
-        if (state is NoteLoaded) {
-          emit(NoteInitial());
+        if (state is _Loaded) {
+          emit(const _Initial());
           final date = event.date.toString();
           final newtask = task.where((element) {
             final data = element.dateTime?.split(" ")[0].split("-")[2];
@@ -29,34 +32,27 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
           }).toList();
           print(task.first.dateTime);
           print(event.date.toString());
-          emit(NoteLoaded(note: newtask));
+          emit(_Loaded(newtask));
         }
       } catch (e) {
         print(e);
       }
     });
 
-    on<AddNoteEvent>((event, emit) async {
+    on<_AddNoteEvent>((event, emit) async {
       final state = this.state;
-      if (state is NoteLoaded) {
+      if (state is _Loaded) {
+        emit(const _Initial());
         final result = await DatabaseHelper.insertDatabase(event.note);
         print(result);
-        // List<Note> task = await DatabaseHelper.queryDatabase();
-        // emit(NoteLoaded(note: task));
       }
-      // note.add(event.note);
-      // if (note.isEmpty) {
-      //   emit(const NoteError('Note Is Empity'));
-      // }
-      // emit(NoteLoaded(note: note));
     });
 
-    on<DeleteNoteEvent>((event, emit) async {
+    on<_DeleteNoteEvent>((event, emit) async {
       final state = this.state;
-      if (state is NoteLoaded) {
+      if (state is _Loaded) {
         await DatabaseHelper.deleteNoteById(event.id);
-        List<Note> task = await DatabaseHelper.queryDatabase();
-        emit(NoteInitial());
+        emit(const _Initial());
       }
     });
   }

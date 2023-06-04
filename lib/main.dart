@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_list/cubit/theme_cubit.dart';
 import 'package:to_do_list/db/db_helper.dart';
+import 'package:to_do_list/inject.dart' as it;
 import 'package:to_do_list/screens/home_screen.dart';
 
 import 'bloc/note_bloc.dart';
 
 void main() async {
+  it.configureDependencies();
   WidgetsFlutterBinding.ensureInitialized();
   await DatabaseHelper.initDb();
   final theme = ThemeCubit();
@@ -30,7 +32,8 @@ class MyApp extends StatelessWidget {
           create: (context) => themeCubit,
         ),
         BlocProvider(
-          create: (context) => NoteBloc()..add(GetNoteEvent(DateTime.now())),
+          create: (context) => it.getIt<NoteBloc>()
+            ..add(NoteEvent.getNoteEvent(date: DateTime.now())),
         ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(

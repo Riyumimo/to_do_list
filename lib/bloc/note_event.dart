@@ -1,25 +1,33 @@
 part of 'note_bloc.dart';
 
-abstract class NoteEvent extends Equatable {
-  const NoteEvent();
-
-  @override
-  List<Object> get props => [];
+@freezed
+class NoteEvent with _$NoteEvent {
+  const factory NoteEvent.addNoteEvent({required Note note}) = _AddNoteEvent;
+  const factory NoteEvent.getNoteEvent({required DateTime date}) =
+      _GetNoteEvent;
+  const factory NoteEvent.deleteNoteEvent({required int id}) = _DeleteNoteEvent;
 }
 
-class AddNoteEvent extends NoteEvent {
-  final Note note;
+// abstract class NoteEvent extends Equatable {
+//   const NoteEvent();
 
-  const AddNoteEvent({required this.note});
-}
+//   @override
+//   List<Object> get props => [];
+// }
 
-class GetNoteEvent extends NoteEvent {
-  final DateTime date;
+// class AddNoteEvent extends NoteEvent {
+//   final Note note;
 
-  const GetNoteEvent(this.date);
-}
+//   const AddNoteEvent({required this.note});
+// }
 
-class DeleteNoteEvent extends NoteEvent {
-  final int id;
-  const DeleteNoteEvent(this.id);
-}
+// class GetNoteEvent extends NoteEvent {
+//   final DateTime date;
+
+//   const GetNoteEvent(this.date);
+// }
+
+// class DeleteNoteEvent extends NoteEvent {
+//   final int id;
+//   const DeleteNoteEvent(this.id);
+// }

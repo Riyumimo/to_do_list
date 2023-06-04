@@ -71,51 +71,55 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _showDate(DateTime selecteedDate) {
-    return BlocBuilder<NoteBloc, NoteState>(
-      // bloc: BlocProvider.of<NoteBloc>(context)..add(GetNoteEvent()),
-      builder: (context, state) {
-        if (state is NoteInitial) {
-          const Center(child: CircularProgressIndicator());
-        }
-        if (state is NoteLoaded) {
-          final note = state.note;
-          if (note!.isEmpty) {
-            return Container();
-          }
-          print("banyak note" + note.length.toString());
-          return note.length > 1
-              ? Expanded(
-                  child: ListView.builder(
-                    itemCount: note.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          trailing: IconButton(
-                              onPressed: () {
-                                context
-                                    .read<NoteBloc>()
-                                    .add(DeleteNoteEvent(note[index].id!));
-
-                                context
-                                    .read<NoteBloc>()
-                                    .add(GetNoteEvent(selecteedDate));
-                                // context.read<NoteBloc>().add(GetNoteEvent());
-                              },
-                              icon: const Icon(CupertinoIcons.trash)),
-                          leading: Text(note[index].id!.toString()),
-                          title: Text(note[index].title!),
-                          tileColor: Colors.grey,
-                          subtitle: Text(note[index].note!),
-                        ),
-                      );
-                    },
-                  ),
-                )
-              : Text(note[0].title!);
-        }
-        return Container();
+    return BlocListener<NoteBloc, NoteState>(
+      listener: (context, state) {
+        print(state);
       },
+      child: BlocBuilder<NoteBloc, NoteState>(
+          // bloc: BlocProvider.of<NoteBloc>(context)..add(GetNoteEvent()),
+          builder: (context, state) {
+        return state.when(
+            initial: () => Container(),
+            loaded: (note) {
+              if (note.isEmpty) {
+                return Container();
+              }
+              print("banyak note" + note.length.toString());
+              return note.length > 1
+                  ? Expanded(
+                      child: ListView.builder(
+                        itemCount: note.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              trailing: IconButton(
+                                  onPressed: () {
+                                    context.read<NoteBloc>().add(
+                                        NoteEvent.deleteNoteEvent(
+                                            id: note[index].id!));
+
+                                    context.read<NoteBloc>().add(
+                                        NoteEvent.getNoteEvent(
+                                            date: selecteedDate));
+                                    // context.read<NoteBloc>().add(GetNoteEvent());
+                                  },
+                                  icon: const Icon(CupertinoIcons.trash)),
+                              leading: Text(note[index].id!.toString()),
+                              title: Text(note[index].title!),
+                              tileColor: Colors.grey,
+                              subtitle: Text(note[index].note!),
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  : Text(note[0].title!);
+            },
+            error: (message) {
+              return Center(child: Text(message));
+            });
+      }),
     );
   }
 
@@ -138,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
           dayTextStyle: GoogleFonts.poppins(
               fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w400),
           onDateChange: (date) {
-            context.read<NoteBloc>().add(GetNoteEvent(date));
+            context.read<NoteBloc>().add(NoteEvent.getNoteEvent(date: date));
           },
         ),
       ),

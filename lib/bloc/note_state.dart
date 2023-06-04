@@ -1,22 +1,29 @@
 part of 'note_bloc.dart';
 
-abstract class NoteState extends Equatable {
-  const NoteState();
-
-  @override
-  List<Object> get props => [];
+@freezed
+class NoteState with _$NoteState {
+  const factory NoteState.initial() = _Initial;
+  const factory NoteState.loaded(List<Note> note) = _Loaded;
+  const factory NoteState.error(String message) = _Error;
 }
 
-class NoteInitial extends NoteState {}
+// abstract class NoteState extends Equatable {
+//   const NoteState();
 
-class NoteLoaded extends NoteState {
-  final List<Note>? note;
+//   @override
+//   List<Object> get props => [];
+// }
 
-  const NoteLoaded({this.note});
-}
+// class NoteInitial extends NoteState {}
 
-class NoteError extends NoteState {
-  final String message;
+// class NoteLoaded extends NoteState {
+//   final List<Note>? note;
 
-  const NoteError(this.message);
-}
+//   const NoteLoaded({this.note});
+// }
+
+// class NoteError extends NoteState {
+//   final String message;
+
+//   const NoteError(this.message);
+// }
