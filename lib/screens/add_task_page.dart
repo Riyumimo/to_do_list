@@ -227,16 +227,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
         isComplete: 0,
       );
       context.read<NoteBloc>().add(NoteEvent.addNoteEvent(note: note));
-      // BlocProvider.of<NoteBloc>(context).add(GetNoteEvent());
       context
           .read<NoteBloc>()
-          .add(NoteEvent.getNoteEvent(date: context.read<DateTime>()));
+          .add(NoteEvent.getNoteEvent(date: DateTime.now()));
       Navigator.pop(context);
-      // Navigator.pushReplacement(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (context) => MyHomePage(),
-      //     ));
     } else if (_titleController.text.isEmpty || _noteController.text.isEmpty) {
       final snackbar = SnackBar(
         duration: const Duration(seconds: 2),

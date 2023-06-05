@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:to_do_list/screens/add_task_page.dart';
 import 'package:to_do_list/service/notifi_helper.dart';
 import 'package:to_do_list/theme.dart';
 
 import '../bloc/note_bloc.dart';
 import '../cubit/theme_cubit.dart';
+import '../db/db_helper.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -20,6 +22,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   NotifiHelper? _notifiHelper;
+  DateTime selectedDate = DateTime.now();
+
   @override
   void initState() {
     NotifiHelper notifiHelper = NotifiHelper();
@@ -31,21 +35,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final theme = BlocProvider.of<ThemeCubit>(context);
-    DateTime selectedDate = DateTime.now();
     return Scaffold(
-      appBar: AppBar(
-          surfaceTintColor: Theme.of(context).canvasColor,
-          centerTitle: true,
-          title: Text(
-            'HomeScreen',
-            style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
-          ),
-          elevation: 0,
-          actions: [
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(CupertinoIcons.person_crop_circle))
-          ]),
+      appBar: _appBar(context),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           theme.toggleTheme();
@@ -70,57 +61,74 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  _showDate(DateTime selecteedDate) {
-    return BlocListener<NoteBloc, NoteState>(
-      listener: (context, state) {
-        print(state);
-      },
-      child: BlocBuilder<NoteBloc, NoteState>(
-          // bloc: BlocProvider.of<NoteBloc>(context)..add(GetNoteEvent()),
-          builder: (context, state) {
-        return state.when(
-            initial: () => Container(),
-            loaded: (note) {
-              if (note.isEmpty) {
-                return Container();
-              }
-              print("banyak note" + note.length.toString());
-              return note.length > 1
-                  ? Expanded(
-                      child: ListView.builder(
-                        itemCount: note.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListTile(
-                              trailing: IconButton(
-                                  onPressed: () {
-                                    context.read<NoteBloc>().add(
-                                        NoteEvent.deleteNoteEvent(
-                                            id: note[index].id!));
+  AppBar _appBar(BuildContext context) {
+    return AppBar(
+        surfaceTintColor: Theme.of(context).canvasColor,
+        centerTitle: true,
+        title: Text(
+          'HomeScreen',
+          style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+        ),
+        elevation: 0,
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(CupertinoIcons.person_crop_circle))
+        ]);
+  }
 
-                                    context.read<NoteBloc>().add(
-                                        NoteEvent.getNoteEvent(
-                                            date: selecteedDate));
-                                    // context.read<NoteBloc>().add(GetNoteEvent());
-                                  },
-                                  icon: const Icon(CupertinoIcons.trash)),
-                              leading: Text(note[index].id!.toString()),
-                              title: Text(note[index].title!),
-                              tileColor: Colors.grey,
-                              subtitle: Text(note[index].note!),
-                            ),
-                          );
-                        },
+  _showDate(DateTime selecteedDate) {
+    RefreshController _refreshcontroller =
+        RefreshController(initialRefresh: false);
+    return BlocBuilder<NoteBloc, NoteState>(
+        // bloc: BlocProvider.of<NoteBloc>(context)..add(GetNoteEvent()),
+        builder: (context, state) {
+      return state.when(
+          initial: () => Container(),
+          loaded: (note) {
+            if (note.isEmpty) {
+              return Container();
+            }
+            print("banyak note" + note.length.toString());
+            return Expanded(
+              child: SmartRefresher(
+                controller: _refreshcontroller,
+                onRefresh: () {
+                  context
+                      .read<NoteBloc>()
+                      .add(NoteEvent.getNoteEvent(date: selectedDate));
+                },
+                child: ListView.builder(
+                  itemCount: note.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        trailing: IconButton(
+                            onPressed: () {
+                              context.read<NoteBloc>().add(
+                                  NoteEvent.deleteNoteEvent(
+                                      id: note[index].id!));
+
+                              context.read<NoteBloc>().add(
+                                  NoteEvent.getNoteEvent(date: selecteedDate));
+                            },
+                            icon: const Icon(CupertinoIcons.trash)),
+                        leading: Text(note[index].id!.toString()),
+                        title: Text(note[index].title!),
+                        tileColor: Colors.grey,
+                        subtitle: Text(note[index].note!),
                       ),
-                    )
-                  : Text(note[0].title!);
-            },
-            error: (message) {
-              return Center(child: Text(message));
-            });
-      }),
-    );
+                    );
+                  },
+                ),
+              ),
+            );
+          },
+          error: (message) {
+            return Center(child: Text(message));
+          });
+    });
   }
 
   _dateBar(DateTime selecteedDate) {
@@ -129,10 +137,10 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: DatePicker(
-          DateTime.now(),
+          DateTime(DateTime.now().year, DateTime.now().month, 1),
           height: 100,
           width: 80,
-          initialSelectedDate: DateTime.now(),
+          initialSelectedDate: selecteedDate,
           selectedTextColor: Colors.white,
           selectionColor: primaryClr,
           dateTextStyle: GoogleFonts.poppins(
@@ -143,6 +151,10 @@ class _MyHomePageState extends State<MyHomePage> {
               fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w400),
           onDateChange: (date) {
             context.read<NoteBloc>().add(NoteEvent.getNoteEvent(date: date));
+            setState(() {
+              selectedDate = date;
+            });
+            print("SECOND DATETIME : $selectedDate");
           },
         ),
       ),
