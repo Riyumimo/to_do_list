@@ -9,9 +9,9 @@ import 'package:to_do_list/screens/home_screen.dart';
 import 'bloc/note_bloc.dart';
 
 void main() async {
-  it.configureDependencies();
   WidgetsFlutterBinding.ensureInitialized();
   await DatabaseHelper.initDb();
+  it.configureDependencies();
   final theme = ThemeCubit();
   theme.initheme();
   runApp(MyApp(

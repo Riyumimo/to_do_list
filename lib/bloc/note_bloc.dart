@@ -19,7 +19,6 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
         // await Future.delayed(Duration(seconds: 5));
         List<Note> task = await DatabaseHelper.queryDatabase();
         emit(_Loaded(task));
-
         if (state is _Loaded) {
           emit(const _Initial());
           final date = event.date.toString();
@@ -35,17 +34,16 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
           emit(_Loaded(newtask));
         }
       } catch (e) {
-        print(e);
+        emit(_Error(e.toString()));
+        print("Error$e");
       }
     });
 
     on<_AddNoteEvent>((event, emit) async {
-      final state = this.state;
-      if (state is _Loaded) {
-        emit(const _Initial());
-        final result = await DatabaseHelper.insertDatabase(event.note);
-        print(result);
-      }
+      // final state = this.state;
+      final result = await DatabaseHelper.insertDatabase(event.note);
+      print(result);
+      emit(const _Initial());
     });
 
     on<_DeleteNoteEvent>((event, emit) async {
