@@ -64,6 +64,16 @@ class DatabaseHelper {
     }
   }
 
+  static Future<void> updateNoteById(int id, int isComplete) async {
+    try {
+      await _db?.update(_tableName, {'isComplete': isComplete},
+          where: 'id = ?', whereArgs: [id]);
+      print("Update Succsefully");
+    } catch (e) {
+      print(e);
+    }
+  }
+
   // static Future<void> dropTable() async {
   //   _db!.execute('DROP TABLE IF EXISTS $_tableName');
   // }

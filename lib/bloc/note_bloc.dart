@@ -53,5 +53,12 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
         emit(const _Initial());
       }
     });
+
+    on<_UpdateNoteEvent>((event, emit) async {
+      if (state is _Loaded) {
+        await DatabaseHelper.updateNoteById(event.id, event.isComplete);
+        emit(const _Initial());
+      }
+    });
   }
 }

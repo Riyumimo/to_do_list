@@ -6,10 +6,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do_list/cubit/theme_cubit.dart';
 import 'package:to_do_list/models/note.dart';
-import 'package:to_do_list/screens/home_screen.dart';
+import 'package:to_do_list/screens/home/home_screen.dart';
 import 'package:to_do_list/theme.dart';
 
-import '../bloc/note_bloc.dart';
+import '../../bloc/note_bloc.dart';
 
 class AddTaskPage extends StatefulWidget {
   const AddTaskPage({super.key});
@@ -266,16 +266,25 @@ class _AddTaskPageState extends State<AddTaskPage> {
             },
             child: Padding(
               padding: const EdgeInsets.only(right: 8),
-              child: CircleAvatar(
-                radius: 14,
-                backgroundColor: index == 0
-                    ? primaryClr
-                    : index == 1
-                        ? Colors.yellow
-                        : Colors.red,
-                child: _selectColor == index
-                    ? const Icon(CupertinoIcons.check_mark_circled)
-                    : Container(),
+              child: BlocBuilder<ThemeCubit, ThemeMode>(
+                builder: (context, state) {
+                  return CircleAvatar(
+                    radius: 14,
+                    backgroundColor: index == 0
+                        ? primaryClr
+                        : index == 1
+                            ? secondaryClr
+                            : thirdClr,
+                    child: _selectColor == index
+                        ? Icon(
+                            CupertinoIcons.check_mark_circled,
+                            color: state == ThemeMode.dark
+                                ? Colors.black
+                                : Colors.white,
+                          )
+                        : Container(),
+                  );
+                },
               ),
             ),
           );

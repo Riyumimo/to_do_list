@@ -21,6 +21,7 @@ mixin _$NoteEvent {
     required TResult Function(Note note) addNoteEvent,
     required TResult Function(DateTime date) getNoteEvent,
     required TResult Function(int id) deleteNoteEvent,
+    required TResult Function(int id, dynamic isComplete) updateNoteEvent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -28,6 +29,7 @@ mixin _$NoteEvent {
     TResult? Function(Note note)? addNoteEvent,
     TResult? Function(DateTime date)? getNoteEvent,
     TResult? Function(int id)? deleteNoteEvent,
+    TResult? Function(int id, dynamic isComplete)? updateNoteEvent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -35,6 +37,7 @@ mixin _$NoteEvent {
     TResult Function(Note note)? addNoteEvent,
     TResult Function(DateTime date)? getNoteEvent,
     TResult Function(int id)? deleteNoteEvent,
+    TResult Function(int id, dynamic isComplete)? updateNoteEvent,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -43,6 +46,7 @@ mixin _$NoteEvent {
     required TResult Function(_AddNoteEvent value) addNoteEvent,
     required TResult Function(_GetNoteEvent value) getNoteEvent,
     required TResult Function(_DeleteNoteEvent value) deleteNoteEvent,
+    required TResult Function(_UpdateNoteEvent value) updateNoteEvent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +54,7 @@ mixin _$NoteEvent {
     TResult? Function(_AddNoteEvent value)? addNoteEvent,
     TResult? Function(_GetNoteEvent value)? getNoteEvent,
     TResult? Function(_DeleteNoteEvent value)? deleteNoteEvent,
+    TResult? Function(_UpdateNoteEvent value)? updateNoteEvent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +62,7 @@ mixin _$NoteEvent {
     TResult Function(_AddNoteEvent value)? addNoteEvent,
     TResult Function(_GetNoteEvent value)? getNoteEvent,
     TResult Function(_DeleteNoteEvent value)? deleteNoteEvent,
+    TResult Function(_UpdateNoteEvent value)? updateNoteEvent,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -154,6 +160,7 @@ class _$_AddNoteEvent with DiagnosticableTreeMixin implements _AddNoteEvent {
     required TResult Function(Note note) addNoteEvent,
     required TResult Function(DateTime date) getNoteEvent,
     required TResult Function(int id) deleteNoteEvent,
+    required TResult Function(int id, dynamic isComplete) updateNoteEvent,
   }) {
     return addNoteEvent(note);
   }
@@ -164,6 +171,7 @@ class _$_AddNoteEvent with DiagnosticableTreeMixin implements _AddNoteEvent {
     TResult? Function(Note note)? addNoteEvent,
     TResult? Function(DateTime date)? getNoteEvent,
     TResult? Function(int id)? deleteNoteEvent,
+    TResult? Function(int id, dynamic isComplete)? updateNoteEvent,
   }) {
     return addNoteEvent?.call(note);
   }
@@ -174,6 +182,7 @@ class _$_AddNoteEvent with DiagnosticableTreeMixin implements _AddNoteEvent {
     TResult Function(Note note)? addNoteEvent,
     TResult Function(DateTime date)? getNoteEvent,
     TResult Function(int id)? deleteNoteEvent,
+    TResult Function(int id, dynamic isComplete)? updateNoteEvent,
     required TResult orElse(),
   }) {
     if (addNoteEvent != null) {
@@ -188,6 +197,7 @@ class _$_AddNoteEvent with DiagnosticableTreeMixin implements _AddNoteEvent {
     required TResult Function(_AddNoteEvent value) addNoteEvent,
     required TResult Function(_GetNoteEvent value) getNoteEvent,
     required TResult Function(_DeleteNoteEvent value) deleteNoteEvent,
+    required TResult Function(_UpdateNoteEvent value) updateNoteEvent,
   }) {
     return addNoteEvent(this);
   }
@@ -198,6 +208,7 @@ class _$_AddNoteEvent with DiagnosticableTreeMixin implements _AddNoteEvent {
     TResult? Function(_AddNoteEvent value)? addNoteEvent,
     TResult? Function(_GetNoteEvent value)? getNoteEvent,
     TResult? Function(_DeleteNoteEvent value)? deleteNoteEvent,
+    TResult? Function(_UpdateNoteEvent value)? updateNoteEvent,
   }) {
     return addNoteEvent?.call(this);
   }
@@ -208,6 +219,7 @@ class _$_AddNoteEvent with DiagnosticableTreeMixin implements _AddNoteEvent {
     TResult Function(_AddNoteEvent value)? addNoteEvent,
     TResult Function(_GetNoteEvent value)? getNoteEvent,
     TResult Function(_DeleteNoteEvent value)? deleteNoteEvent,
+    TResult Function(_UpdateNoteEvent value)? updateNoteEvent,
     required TResult orElse(),
   }) {
     if (addNoteEvent != null) {
@@ -301,6 +313,7 @@ class _$_GetNoteEvent with DiagnosticableTreeMixin implements _GetNoteEvent {
     required TResult Function(Note note) addNoteEvent,
     required TResult Function(DateTime date) getNoteEvent,
     required TResult Function(int id) deleteNoteEvent,
+    required TResult Function(int id, dynamic isComplete) updateNoteEvent,
   }) {
     return getNoteEvent(date);
   }
@@ -311,6 +324,7 @@ class _$_GetNoteEvent with DiagnosticableTreeMixin implements _GetNoteEvent {
     TResult? Function(Note note)? addNoteEvent,
     TResult? Function(DateTime date)? getNoteEvent,
     TResult? Function(int id)? deleteNoteEvent,
+    TResult? Function(int id, dynamic isComplete)? updateNoteEvent,
   }) {
     return getNoteEvent?.call(date);
   }
@@ -321,6 +335,7 @@ class _$_GetNoteEvent with DiagnosticableTreeMixin implements _GetNoteEvent {
     TResult Function(Note note)? addNoteEvent,
     TResult Function(DateTime date)? getNoteEvent,
     TResult Function(int id)? deleteNoteEvent,
+    TResult Function(int id, dynamic isComplete)? updateNoteEvent,
     required TResult orElse(),
   }) {
     if (getNoteEvent != null) {
@@ -335,6 +350,7 @@ class _$_GetNoteEvent with DiagnosticableTreeMixin implements _GetNoteEvent {
     required TResult Function(_AddNoteEvent value) addNoteEvent,
     required TResult Function(_GetNoteEvent value) getNoteEvent,
     required TResult Function(_DeleteNoteEvent value) deleteNoteEvent,
+    required TResult Function(_UpdateNoteEvent value) updateNoteEvent,
   }) {
     return getNoteEvent(this);
   }
@@ -345,6 +361,7 @@ class _$_GetNoteEvent with DiagnosticableTreeMixin implements _GetNoteEvent {
     TResult? Function(_AddNoteEvent value)? addNoteEvent,
     TResult? Function(_GetNoteEvent value)? getNoteEvent,
     TResult? Function(_DeleteNoteEvent value)? deleteNoteEvent,
+    TResult? Function(_UpdateNoteEvent value)? updateNoteEvent,
   }) {
     return getNoteEvent?.call(this);
   }
@@ -355,6 +372,7 @@ class _$_GetNoteEvent with DiagnosticableTreeMixin implements _GetNoteEvent {
     TResult Function(_AddNoteEvent value)? addNoteEvent,
     TResult Function(_GetNoteEvent value)? getNoteEvent,
     TResult Function(_DeleteNoteEvent value)? deleteNoteEvent,
+    TResult Function(_UpdateNoteEvent value)? updateNoteEvent,
     required TResult orElse(),
   }) {
     if (getNoteEvent != null) {
@@ -450,6 +468,7 @@ class _$_DeleteNoteEvent
     required TResult Function(Note note) addNoteEvent,
     required TResult Function(DateTime date) getNoteEvent,
     required TResult Function(int id) deleteNoteEvent,
+    required TResult Function(int id, dynamic isComplete) updateNoteEvent,
   }) {
     return deleteNoteEvent(id);
   }
@@ -460,6 +479,7 @@ class _$_DeleteNoteEvent
     TResult? Function(Note note)? addNoteEvent,
     TResult? Function(DateTime date)? getNoteEvent,
     TResult? Function(int id)? deleteNoteEvent,
+    TResult? Function(int id, dynamic isComplete)? updateNoteEvent,
   }) {
     return deleteNoteEvent?.call(id);
   }
@@ -470,6 +490,7 @@ class _$_DeleteNoteEvent
     TResult Function(Note note)? addNoteEvent,
     TResult Function(DateTime date)? getNoteEvent,
     TResult Function(int id)? deleteNoteEvent,
+    TResult Function(int id, dynamic isComplete)? updateNoteEvent,
     required TResult orElse(),
   }) {
     if (deleteNoteEvent != null) {
@@ -484,6 +505,7 @@ class _$_DeleteNoteEvent
     required TResult Function(_AddNoteEvent value) addNoteEvent,
     required TResult Function(_GetNoteEvent value) getNoteEvent,
     required TResult Function(_DeleteNoteEvent value) deleteNoteEvent,
+    required TResult Function(_UpdateNoteEvent value) updateNoteEvent,
   }) {
     return deleteNoteEvent(this);
   }
@@ -494,6 +516,7 @@ class _$_DeleteNoteEvent
     TResult? Function(_AddNoteEvent value)? addNoteEvent,
     TResult? Function(_GetNoteEvent value)? getNoteEvent,
     TResult? Function(_DeleteNoteEvent value)? deleteNoteEvent,
+    TResult? Function(_UpdateNoteEvent value)? updateNoteEvent,
   }) {
     return deleteNoteEvent?.call(this);
   }
@@ -504,6 +527,7 @@ class _$_DeleteNoteEvent
     TResult Function(_AddNoteEvent value)? addNoteEvent,
     TResult Function(_GetNoteEvent value)? getNoteEvent,
     TResult Function(_DeleteNoteEvent value)? deleteNoteEvent,
+    TResult Function(_UpdateNoteEvent value)? updateNoteEvent,
     required TResult orElse(),
   }) {
     if (deleteNoteEvent != null) {
@@ -519,6 +543,171 @@ abstract class _DeleteNoteEvent implements NoteEvent {
   int get id;
   @JsonKey(ignore: true)
   _$$_DeleteNoteEventCopyWith<_$_DeleteNoteEvent> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_UpdateNoteEventCopyWith<$Res> {
+  factory _$$_UpdateNoteEventCopyWith(
+          _$_UpdateNoteEvent value, $Res Function(_$_UpdateNoteEvent) then) =
+      __$$_UpdateNoteEventCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int id, dynamic isComplete});
+}
+
+/// @nodoc
+class __$$_UpdateNoteEventCopyWithImpl<$Res>
+    extends _$NoteEventCopyWithImpl<$Res, _$_UpdateNoteEvent>
+    implements _$$_UpdateNoteEventCopyWith<$Res> {
+  __$$_UpdateNoteEventCopyWithImpl(
+      _$_UpdateNoteEvent _value, $Res Function(_$_UpdateNoteEvent) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? isComplete = freezed,
+  }) {
+    return _then(_$_UpdateNoteEvent(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      isComplete: freezed == isComplete ? _value.isComplete! : isComplete,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_UpdateNoteEvent
+    with DiagnosticableTreeMixin
+    implements _UpdateNoteEvent {
+  const _$_UpdateNoteEvent({required this.id, this.isComplete});
+
+  @override
+  final int id;
+  @override
+  final dynamic isComplete;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'NoteEvent.updateNoteEvent(id: $id, isComplete: $isComplete)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'NoteEvent.updateNoteEvent'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('isComplete', isComplete));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_UpdateNoteEvent &&
+            (identical(other.id, id) || other.id == id) &&
+            const DeepCollectionEquality()
+                .equals(other.isComplete, isComplete));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, id, const DeepCollectionEquality().hash(isComplete));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_UpdateNoteEventCopyWith<_$_UpdateNoteEvent> get copyWith =>
+      __$$_UpdateNoteEventCopyWithImpl<_$_UpdateNoteEvent>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Note note) addNoteEvent,
+    required TResult Function(DateTime date) getNoteEvent,
+    required TResult Function(int id) deleteNoteEvent,
+    required TResult Function(int id, dynamic isComplete) updateNoteEvent,
+  }) {
+    return updateNoteEvent(id, isComplete);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(Note note)? addNoteEvent,
+    TResult? Function(DateTime date)? getNoteEvent,
+    TResult? Function(int id)? deleteNoteEvent,
+    TResult? Function(int id, dynamic isComplete)? updateNoteEvent,
+  }) {
+    return updateNoteEvent?.call(id, isComplete);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Note note)? addNoteEvent,
+    TResult Function(DateTime date)? getNoteEvent,
+    TResult Function(int id)? deleteNoteEvent,
+    TResult Function(int id, dynamic isComplete)? updateNoteEvent,
+    required TResult orElse(),
+  }) {
+    if (updateNoteEvent != null) {
+      return updateNoteEvent(id, isComplete);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_AddNoteEvent value) addNoteEvent,
+    required TResult Function(_GetNoteEvent value) getNoteEvent,
+    required TResult Function(_DeleteNoteEvent value) deleteNoteEvent,
+    required TResult Function(_UpdateNoteEvent value) updateNoteEvent,
+  }) {
+    return updateNoteEvent(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_AddNoteEvent value)? addNoteEvent,
+    TResult? Function(_GetNoteEvent value)? getNoteEvent,
+    TResult? Function(_DeleteNoteEvent value)? deleteNoteEvent,
+    TResult? Function(_UpdateNoteEvent value)? updateNoteEvent,
+  }) {
+    return updateNoteEvent?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_AddNoteEvent value)? addNoteEvent,
+    TResult Function(_GetNoteEvent value)? getNoteEvent,
+    TResult Function(_DeleteNoteEvent value)? deleteNoteEvent,
+    TResult Function(_UpdateNoteEvent value)? updateNoteEvent,
+    required TResult orElse(),
+  }) {
+    if (updateNoteEvent != null) {
+      return updateNoteEvent(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UpdateNoteEvent implements NoteEvent {
+  const factory _UpdateNoteEvent(
+      {required final int id, final dynamic isComplete}) = _$_UpdateNoteEvent;
+
+  int get id;
+  dynamic get isComplete;
+  @JsonKey(ignore: true)
+  _$$_UpdateNoteEventCopyWith<_$_UpdateNoteEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

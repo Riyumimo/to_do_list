@@ -7,19 +7,28 @@
         {
             "name": "to_do_list",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": [
+                "--cache-sksl"
+            ]
         },
         {
             "name": "to_do_list (profile mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "flutterMode": "profile",
+            "args": [
+                "--cache-sksl"
+            ]
         },
         {
             "name": "to_do_list (release mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "flutterMode": "release",
+            "args": [
+                "--cache-sksl"
+            ]
         }
     ]
 }

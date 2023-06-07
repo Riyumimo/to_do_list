@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_list/cubit/theme_cubit.dart';
 import 'package:to_do_list/db/db_helper.dart';
 import 'package:to_do_list/inject.dart' as it;
-import 'package:to_do_list/screens/home_screen.dart';
+import 'package:to_do_list/screens/home/home_screen.dart';
+import 'package:to_do_list/theme.dart';
 
 import 'bloc/note_bloc.dart';
 
@@ -14,6 +16,7 @@ void main() async {
   it.configureDependencies();
   final theme = ThemeCubit();
   theme.initheme();
+  PaintingBinding.instance;
   runApp(MyApp(
     themeCubit: theme,
   ));
@@ -46,7 +49,9 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
             ),
-            darkTheme: ThemeData.dark(useMaterial3: true),
+            darkTheme: ThemeData.dark(
+              useMaterial3: true,
+            ),
             themeMode: state,
             home: const MyHomePage(),
           );

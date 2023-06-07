@@ -6,6 +6,8 @@ class NoteEvent with _$NoteEvent {
   const factory NoteEvent.getNoteEvent({required DateTime date}) =
       _GetNoteEvent;
   const factory NoteEvent.deleteNoteEvent({required int id}) = _DeleteNoteEvent;
+  const factory NoteEvent.updateNoteEvent({required int id, isComplete}) =
+      _UpdateNoteEvent;
 }
 
 // abstract class NoteEvent extends Equatable {
