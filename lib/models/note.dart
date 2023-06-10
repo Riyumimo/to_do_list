@@ -37,17 +37,17 @@ class Note {
   }
 
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['note'] = this.note;
-    data['date'] = this.dateTime;
-    data['startTime'] = this.startTime;
-    data['endTime'] = this.endTime;
-    data['remind'] = this.remind;
-    data['repeat'] = this.repeat;
-    data['colors'] = this.colors;
-    data['isComplete'] = this.isComplete;
+    Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['title'] = title;
+    data['note'] = note;
+    data['date'] = dateTime;
+    data['startTime'] = startTime;
+    data['endTime'] = endTime;
+    data['remind'] = remind;
+    data['repeat'] = repeat;
+    data['colors'] = colors;
+    data['isComplete'] = isComplete;
     return data;
   }
 }

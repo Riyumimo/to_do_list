@@ -4,8 +4,8 @@ import '../models/note.dart';
 
 class DatabaseHelper {
   static Database? _db;
-  static final int _version = 1;
-  static final String _tableName = "task";
+  static const int _version = 1;
+  static const String _tableName = "task";
 
   static Future<void> initDb() async {
     if (_db != null) {
@@ -13,8 +13,8 @@ class DatabaseHelper {
     }
     {
       try {
-        String _path = await getDatabasesPath() + 'task.db';
-        _db = await openDatabase(_path, version: _version,
+        String path = '${await getDatabasesPath()}task.db';
+        _db = await openDatabase(path, version: _version,
             onCreate: ((db, version) {
           print('Create new Databse ');
           return db.execute(
@@ -79,7 +79,7 @@ class DatabaseHelper {
   // }
 
   static Future<void> deleteDatabse() async {
-    deleteDatabase(await getDatabasesPath() + 'task.db');
+    deleteDatabase('${await getDatabasesPath()}task.db');
     print('database has been delete');
   }
 }

@@ -9,13 +9,11 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:to_do_list/models/note.dart';
 import 'package:to_do_list/screens/add_task/add_task_page.dart';
 import 'package:to_do_list/screens/home/widgets/task_tile.dart';
-import 'package:to_do_list/screens/test_scree.dart';
 import 'package:to_do_list/service/notifi_helper.dart';
 import 'package:to_do_list/theme.dart';
 
 import '../../bloc/note_bloc.dart';
 import '../../cubit/theme_cubit.dart';
-import '../../db/db_helper.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -47,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
           theme.toggleTheme();
           _notifiHelper!
               .displayNotification(title: "HomeScreen", body: "First Notify");
-          _notifiHelper!.scheduledNotification();
+          // _notifiHelper!.scheduledNotification();
           // await DatabaseHelper.dropTable();
           // await DatabaseHelper.deleteDatabse();
         },
@@ -63,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
           const SizedBox(
             height: 10,
           ),
-          _showDate(selectedDate),
+          _showTask(selectedDate),
         ]),
       ),
     );
@@ -85,8 +83,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ]);
   }
 
-  _showDate(DateTime selecteedDate) {
-    RefreshController _refreshcontroller =
+  _showTask(DateTime selecteedDate) {
+    RefreshController refreshcontroller =
         RefreshController(initialRefresh: false);
     return BlocBuilder<NoteBloc, NoteState>(
         // bloc: BlocProvider.of<NoteBloc>(context)..add(GetNoteEvent()),
@@ -97,10 +95,10 @@ class _MyHomePageState extends State<MyHomePage> {
             if (note.isEmpty) {
               return Container();
             }
-            print("banyak note" + note.length.toString());
+            print("banyak note${note.length}");
             return Expanded(
               child: SmartRefresher(
-                controller: _refreshcontroller,
+                controller: refreshcontroller,
                 onRefresh: () {
                   context
                       .read<NoteBloc>()
@@ -109,8 +107,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: ListView.builder(
                   itemCount: note.length,
                   itemBuilder: (context, index) {
-                    print(
-                        "Iscomplete : ${note[index].id} ${note[index].isComplete}");
+                    Note task = note[index];
+                    print(task.toJson());
+                    // print(
+                    //     "Iscomplete : ${note[index].id} ${note[index].isComplete}");
+                    //Format Data became to Datetime and parsing to
+                    DateTime date = DateFormat("HH:mm")
+                        .parse(note[index].startTime.toString());
+                    var myTime = DateFormat("HH:mm").format(date);
+                    //parsing to schduleNotification
+                    _notifiHelper!.scheduledNotification(
+                        int.parse(myTime.toString().split(":")[0]),
+                        int.parse(myTime.toString().split(":")[1]),
+                        note[index]);
+
                     return AnimationConfiguration.staggeredList(
                         position: index,
                         child: SlideAnimation(
@@ -141,6 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+// ShowBottom Sheet
   Future<dynamic> _showBottomSheet(BuildContext context, Note note, int index) {
     return showModalBottomSheet(
       elevation: 0, // barrierColor: Colors.transparent.withOpacity(0.5),
@@ -171,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ? Colors.grey[600]
                               : Colors.grey[300]),
                     ),
-                    Expanded(child: SizedBox()),
+                    const Expanded(child: SizedBox()),
                     note.isComplete == 1
                         ? Container()
                         : _bottomSheetButton(
@@ -182,6 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       id: note.id!, isComplete: 1));
                               context.read<NoteBloc>().add(
                                   NoteEvent.getNoteEvent(date: selectedDate));
+                              Navigator.pop(context);
                               // note.isComplete = 1;
                             },
                             clrs: buttonClr),
@@ -202,6 +214,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     _bottomSheetButton(
                         label: "Cancel",
+                        isClose: true,
                         ontap: () {
                           Navigator.pop(context);
                         },
@@ -226,8 +239,11 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Container(
         height: 50,
         width: double.infinity,
-        decoration:
-            BoxDecoration(borderRadius: BorderRadius.circular(16), color: clrs),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+                width: 2, color: isClose == true ? Colors.grey : clrs),
+            color: isClose == true ? Colors.transparent : clrs),
         child: Material(
           color: Colors.transparent,
           child: InkWell(

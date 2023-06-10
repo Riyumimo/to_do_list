@@ -22,7 +22,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
   DateTime _dateTime = DateTime.now();
-  Time _time = Time(hour: 11, minute: 30, second: 12);
+  Time _time = Time(
+    hour: DateTime.now().hour,
+    minute: DateTime.now().minute,
+  );
   int _selectRemind = 5;
   List<int> remindList = [4, 5, 10, 15];
   String _seleceRepeat = "None";
@@ -38,6 +41,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     setState(() {
       _time = newtime;
     });
+    print(_time.format(context).toString());
   }
 
   @override
@@ -199,7 +203,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                       MyButton(
                         label: "Create Task",
                         ontap: () {
-                          _validateData();
+                          _validateData(context);
                         },
                       )
                     ],
@@ -213,20 +217,29 @@ class _AddTaskPageState extends State<AddTaskPage> {
     );
   }
 
-  _validateData() {
+  _validateData(BuildContext buildContext) {
     if (_titleController.text.isNotEmpty && _noteController.text.isNotEmpty) {
+      //Format end time to 10:58 format
+      DateTime endDate =
+          DateFormat("HH:mm").parse(_time.format(context).toString());
+      final end = endDate.toString().split(" ")[1];
+      final timeParts = end.split(":");
+      final endTimeHour = "${timeParts[0]}:${timeParts[1]}";
+      //adding DATA
       final note = Note(
         title: _titleController.text.toString(),
         note: _noteController.text.toString(),
         dateTime: _dateTime.toString(),
         startTime: startTime,
-        endTime: _time.toString(),
+        endTime: endTimeHour,
         remind: _selectRemind,
         repeat: _seleceRepeat,
         colors: _selectColor,
         isComplete: 0,
       );
+      //SetState To ADD to DB
       context.read<NoteBloc>().add(NoteEvent.addNoteEvent(note: note));
+      //SetState to Show Note
       context
           .read<NoteBloc>()
           .add(NoteEvent.getNoteEvent(date: DateTime.now()));

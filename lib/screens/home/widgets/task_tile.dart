@@ -11,7 +11,7 @@ class TaskTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Color> _getBGColor = [primaryClr, secondaryClr, thirdClr];
+    List<Color> getBGColor = [primaryClr, secondaryClr, thirdClr];
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       width: MediaQuery.of(context).size.width,
@@ -20,7 +20,7 @@ class TaskTile extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: _getBGColor[note?.colors ?? 0],
+          color: getBGColor[note?.colors ?? 0],
         ),
         child: Row(
           children: [
