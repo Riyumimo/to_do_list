@@ -14,7 +14,6 @@ import 'package:to_do_list/theme.dart';
 
 import '../../bloc/note_bloc.dart';
 import '../../cubit/theme_cubit.dart';
-import '../../db/db_helper.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -88,7 +87,6 @@ class _MyHomePageState extends State<MyHomePage> {
             if (note.isEmpty) {
               return Container();
             }
-            print("banyak note${note.length}");
             return Expanded(
               child: SmartRefresher(
                 controller: refreshcontroller,
@@ -100,8 +98,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: ListView.builder(
                   itemCount: note.length,
                   itemBuilder: (context, index) {
-                    Note task = note[index];
-                    print(task.toJson());
                     //Format Data became to Datetime and parsing to
                     DateTime date = DateFormat("HH:mm")
                         .parse(note[index].endTime.toString());
@@ -292,7 +288,6 @@ class _MyHomePageState extends State<MyHomePage> {
             setState(() {
               selectedDate = date;
             });
-            print("SECOND DATETIME : $selectedDate");
           },
         ),
       ),

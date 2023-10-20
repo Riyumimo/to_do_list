@@ -41,7 +41,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
     setState(() {
       _time = newtime;
     });
-    print(_time.format(context).toString());
   }
 
   @override

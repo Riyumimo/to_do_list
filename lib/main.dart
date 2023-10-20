@@ -18,11 +18,11 @@ void main() async {
   await DatabaseHelper.initDb();
   it.configureDependencies();
   NotifiService.notifiservice.initializeNotification();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -68,6 +68,7 @@ class MyApp extends StatelessWidget {
                 default:
                   Container();
               }
+              return null;
             },
             home: const MyHomePage(),
           );

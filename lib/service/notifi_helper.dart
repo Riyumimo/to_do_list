@@ -38,10 +38,9 @@ class NotifiHelper {
           final note = jsonDecode(detail.payload!) as Map<String, dynamic>;
           final newPayload = Note.fromJson(note);
           navigasi.currentState!.pushNamed('/test', arguments: newPayload);
-          print("Push succsesfully");
         });
       } catch (e) {
-        print(e);
+        throw ();
       }
     });
   }
