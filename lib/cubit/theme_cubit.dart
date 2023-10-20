@@ -10,7 +10,6 @@ class ThemeCubit extends Cubit<ThemeMode> {
     final pref = await SharedPreferences.getInstance();
     final savedTheme = pref.getString('theme');
     if (savedTheme != null) {
-      print("THIS THEME : ${savedTheme.toString()}");
       final themeMode = ThemeMode.values.firstWhere(
         (element) => element.toString() == savedTheme,
         orElse: () => ThemeMode.dark,

@@ -36,7 +36,6 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
         }
       } catch (e) {
         emit(_Error(e.toString()));
-        print("Error$e");
       }
     });
 
@@ -81,7 +80,6 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
             List<Note> newNote = [];
             String format = 'yyyy-MM-dd HH:mm:ss';
             DateTime dateTime = DateFormat(format).parse(note.dateTime!);
-            print(dateTime);
             for (int i = 0; i < 10; i++) {
               DateTime tanggal = dateTime.add(Duration(days: i * 7));
               newNote.add(Note(

@@ -16,7 +16,6 @@ class DatabaseHelper {
         String path = '${await getDatabasesPath()}task.db';
         _db = await openDatabase(path, version: _version,
             onCreate: ((db, version) {
-          print('Create new Databse ');
           return db.execute(
             "CREATE TABLE $_tableName("
             "id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -28,19 +27,16 @@ class DatabaseHelper {
           );
         }));
       } catch (e) {
-        print(e);
+        throw ();
       }
     }
   }
 
   static Future<int> insertDatabase(Note note) async {
-    print('Insert Funcion called');
     return await _db?.insert(_tableName, note.toJson()) ?? 1;
   }
 
   static Future<List<Note>> queryDatabase() async {
-    print('Query Funcion called');
-    print(_db);
     if (_db != null) {
       final result = await _db!.query(_tableName);
       final List<Note> note = [];
@@ -50,7 +46,6 @@ class DatabaseHelper {
       // );
       return note;
     } else {
-      print('error');
       return [];
     }
   }
@@ -58,9 +53,8 @@ class DatabaseHelper {
   static Future<void> deleteNoteById(int id) async {
     try {
       await _db?.delete(_tableName, where: 'id = ?', whereArgs: [id]);
-      print('Delet has Successfully');
     } catch (e) {
-      print(e);
+      throw ();
     }
   }
 
@@ -68,9 +62,8 @@ class DatabaseHelper {
     try {
       await _db?.update(_tableName, {'isComplete': isComplete},
           where: 'id = ?', whereArgs: [id]);
-      print("Update Succsefully");
     } catch (e) {
-      print(e);
+      throw ();
     }
   }
 
@@ -80,6 +73,5 @@ class DatabaseHelper {
 
   static Future<void> deleteDatabse() async {
     deleteDatabase('${await getDatabasesPath()}task.db');
-    print('database has been delete');
   }
 }
