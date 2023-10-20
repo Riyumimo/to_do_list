@@ -12,8 +12,6 @@ part 'note_bloc.freezed.dart';
 part 'note_state.dart';
 
 @injectable
-enum RepeatData { None, Daily, Weekly, Monthly }
-
 class NoteBloc extends Bloc<NoteEvent, NoteState> {
   NoteBloc() : super(const _Initial()) {
     on<_GetNoteEvent>((event, emit) async {

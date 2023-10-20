@@ -4,25 +4,25 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_list/cubit/theme_cubit.dart';
 import 'package:to_do_list/db/db_helper.dart';
 import 'package:to_do_list/inject.dart' as it;
+import 'package:to_do_list/screens/add_task/add_task_page.dart';
 import 'package:to_do_list/screens/home/home_screen.dart';
+import 'package:to_do_list/screens/notification_page.dart';
+import 'package:to_do_list/service/navigation_service.dart';
+import 'package:to_do_list/service/notifi_sercvice.dart';
 
 import 'bloc/note_bloc.dart';
+import 'models/note.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DatabaseHelper.initDb();
   it.configureDependencies();
-  final theme = ThemeCubit();
-  theme.initheme();
-  PaintingBinding.instance;
-  runApp(MyApp(
-    themeCubit: theme,
-  ));
+  NotifiService.notifiservice.initializeNotification();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final ThemeCubit themeCubit;
-  const MyApp({super.key, required this.themeCubit});
+  MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => themeCubit,
+          create: (context) => ThemeCubit()..initheme(),
         ),
         BlocProvider(
           create: (context) => it.getIt<NoteBloc>()
@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, state) {
           return MaterialApp(
+            navigatorKey: NavigationService.navigatorKey,
             title: 'Flutter Demo',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
@@ -51,6 +52,23 @@ class MyApp extends StatelessWidget {
               useMaterial3: true,
             ),
             themeMode: state,
+            onGenerateRoute: (setting) {
+              switch (setting.name) {
+                case '/':
+                  return MaterialPageRoute(
+                      builder: (context) => const MyHomePage());
+                case '/add':
+                  return MaterialPageRoute(
+                      builder: (context) => const AddTaskPage());
+                case '/test':
+                  return MaterialPageRoute(
+                      builder: (context) => NotificationPage(
+                            note: setting.arguments as Note,
+                          ));
+                default:
+                  Container();
+              }
+            },
             home: const MyHomePage(),
           );
         },

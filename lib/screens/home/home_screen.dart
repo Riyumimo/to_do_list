@@ -7,13 +7,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:to_do_list/models/note.dart';
-import 'package:to_do_list/screens/add_task/add_task_page.dart';
 import 'package:to_do_list/screens/home/widgets/task_tile.dart';
 import 'package:to_do_list/service/notifi_helper.dart';
+import 'package:to_do_list/service/notifi_sercvice.dart';
 import 'package:to_do_list/theme.dart';
 
 import '../../bloc/note_bloc.dart';
 import '../../cubit/theme_cubit.dart';
+import '../../db/db_helper.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -23,16 +24,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  NotifiHelper? _notifiHelper;
+  final NotifiHelper _notifiHelper = NotifiService.notifiservice;
   DateTime selectedDate = DateTime.now();
-
-  @override
-  void initState() {
-    NotifiHelper notifiHelper = NotifiHelper();
-    notifiHelper.initializeNotification();
-    _notifiHelper = notifiHelper;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +36,8 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: buttonClr,
         onPressed: () async {
           theme.toggleTheme();
-          _notifiHelper!
-              .displayNotification(title: "HomeScreen", body: "First Notify");
+          _notifiHelper.displayNotification(
+              title: "HomeScreen", body: "First Notify");
           // _notifiHelper!.scheduledNotification();
           // await DatabaseHelper.dropTable();
           // await DatabaseHelper.deleteDatabse();
@@ -109,14 +102,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   itemBuilder: (context, index) {
                     Note task = note[index];
                     print(task.toJson());
-                    // print(
-                    //     "Iscomplete : ${note[index].id} ${note[index].isComplete}");
                     //Format Data became to Datetime and parsing to
                     DateTime date = DateFormat("HH:mm")
-                        .parse(note[index].startTime.toString());
+                        .parse(note[index].endTime.toString());
                     var myTime = DateFormat("HH:mm").format(date);
+
                     //parsing to schduleNotification
-                    _notifiHelper!.scheduledNotification(
+                    _notifiHelper.scheduledNotification(
                         int.parse(myTime.toString().split(":")[0]),
                         int.parse(myTime.toString().split(":")[1]),
                         note[index]);
@@ -236,30 +228,43 @@ class _MyHomePageState extends State<MyHomePage> {
       bool isClose = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-      child: Container(
-        height: 50,
-        width: double.infinity,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-                width: 2, color: isClose == true ? Colors.grey : clrs),
-            color: isClose == true ? Colors.transparent : clrs),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: ontap,
-            child: SizedBox(
-              child: Center(
-                  child: Text(
-                label,
-                style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              )),
+      child: BlocBuilder<ThemeCubit, ThemeMode>(
+        builder: (context, state) {
+          return Container(
+            height: 50,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                    width: 2,
+                    color: isClose == true
+                        ? state == ThemeMode.light
+                            ? const Color(0xFF303030)
+                            : Colors.white
+                        : clrs),
+                color: isClose == true ? Colors.transparent : clrs),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: ontap,
+                child: SizedBox(
+                  child: Center(
+                      child: Text(
+                    label,
+                    style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: isClose == true
+                            ? state == ThemeMode.dark
+                                ? Colors.white
+                                : Colors.grey[850]
+                            : Colors.white),
+                  )),
+                ),
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
@@ -321,11 +326,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   label: '+ Add task',
                   ontap: () async {
                     await Future.delayed(const Duration(microseconds: 10), () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return const AddTaskPage();
-                        },
-                      ));
+                      Navigator.pushNamed(context, '/add');
                     });
                   },
                 )
